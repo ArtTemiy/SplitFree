@@ -1,0 +1,48 @@
+components:
+    Member:
+        description: Member of the app
+        type: object
+        properties:
+            id:
+                type: string
+            name:
+                type: string
+
+    Group:
+        description: Group of users with common bill
+        type: object
+        additionalProperties: false
+        properties:
+            id:
+                type: string
+            title:
+                type: string
+            members:
+                type: array
+                items:
+                    type: string
+
+
+    MoneySplit:
+        description: Money split between members
+        type: object
+        additionalProperties: false
+        properties:
+            split:
+                type: array
+                items:
+                    type: object
+                    properties:
+                        memberId: string
+                        amount: number
+
+    Expense:
+        type: object
+        properties:
+            title: string
+            category: string
+            amount: number
+            paidBy:
+                $ref: "#/components/MoneySplit"
+            splitBy:
+                $ref: "#/components/MoneySplit"

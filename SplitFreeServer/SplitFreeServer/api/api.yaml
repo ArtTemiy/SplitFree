@@ -1,0 +1,14 @@
+openapi: "3.0.0"
+info:
+    title: Simple API overview
+    version: 2.0.0
+paths:
+    /group:
+        get:
+        post:
+        put:
+        delete:
+    /group/member:
+        post:
+        delete:
+    /member:

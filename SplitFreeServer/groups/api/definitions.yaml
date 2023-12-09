@@ -1,0 +1,21 @@
+components:
+    Group:
+        type: object
+        additionalProperties: false
+        properties:
+            id:
+                type: string
+            title:
+                type: string
+            members:
+                type: array
+                items:
+                    string
+            time_created:
+                type: string
+                format: 'date-time'
+        required:
+            - id
+            - title
+            - members
+            - time_created

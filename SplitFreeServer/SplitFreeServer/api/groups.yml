@@ -1,0 +1,21 @@
+openapi: "3.0.2"
+info:
+    title: Group API
+    version: "1.0"
+servers:
+  - url: https://splitfree.ge/v1
+paths:
+    /group:
+        get:
+            parameters:
+              - name: groupId
+                in: query
+                schema:
+                    type: string
+            responses:
+                200:
+                    description: OK
+                    content:
+                        applicaiton/json:
+                            schema:
+                                $ref: "./definitions.yaml#/components/Group"

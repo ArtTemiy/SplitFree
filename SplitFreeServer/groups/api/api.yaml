@@ -1,0 +1,67 @@
+openapi: "3.0.0"
+info:
+    title: API for groups
+    version: "1.0"
+paths:
+    /group:
+        get:
+            parameters:
+              - in: query
+                name: id
+                schema:
+                    type: string
+            responses:
+                200:
+                    $ref: 'definitions.yaml#/components/Group'
+                404:
+                    description: Not Found
+
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                title:
+                                    type: string
+                            additionalProperties: false
+                            required:
+                                - title
+            responses:
+                200:
+                    description: OK
+                400:
+                    $ref: '../../api/common.yaml#/components/Error'
+        delete:
+            parameters:
+              - name: id
+                in: query
+                schema:
+                    type: string
+            responses:
+                200:
+                    description: OK
+                404:
+                    description: Not Found
+
+        put:
+            parameters:
+              - name: id
+                in: query
+                schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                title:
+                                    type: string
+                            additionalProperties: false
+                            required:
+                                - title
+            responses:
+                200:
+                    description: OK
+                400:
+                    $ref: '../../api/common.yaml#/components/Error'

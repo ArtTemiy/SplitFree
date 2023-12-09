@@ -1,0 +1,6 @@
+components:
+    Error:
+        type: object
+        properties:
+            message:
+                type: string
