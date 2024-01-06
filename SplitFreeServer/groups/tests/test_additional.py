@@ -3,19 +3,17 @@ from django.test import TestCase
 from rest_framework.authtoken.models import Token
 
 from groups.models.group import Group, GroupSerializer
-from .common import GroupTestBase
+from .test_case_group import GroupTestCaseBase
 
 
-class AdditionalViewTests(GroupTestBase):
+class AdditionalViewTests(GroupTestCaseBase):
     def test_add_members(self):
         usernames = ['new_user1', 'new_user2']
-        username_pks = []
         for un in usernames:
             o = User.objects.create_user(username=un)
             o.save()
-            username_pks.append(o.pk)
         self.assertResponse(
-            self.client.post(
+            self.client_admin.post(
                 path=f'/group/members?name={self.group_name}',
                 data={
                     'members': usernames,
@@ -30,10 +28,10 @@ class AdditionalViewTests(GroupTestBase):
 
     def test_delete_members(self):
         self.assertResponse(
-            self.client.delete(
+            self.client_admin.delete(
                 path=f'/group/members?name={self.group_name}',
                 data={
-                    'members': [self.user.username],
+                    'members': [self.user_member.username],
                 },
                 format='json'
             )

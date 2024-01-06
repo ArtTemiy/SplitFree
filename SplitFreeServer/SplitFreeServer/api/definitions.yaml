@@ -9,7 +9,7 @@ components:
                 type: string
 
     Group:
-        description: Group of users with common bill
+        description: Group of users with libs bill
         type: object
         additionalProperties: false
         properties:
