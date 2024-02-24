@@ -29,6 +29,22 @@ class GroupAPITestsCase(GroupTestCaseBase):
         self.assertResponse(response, 404)
         self.assertIsNotNone(response.data)
 
+    def test_forbidden_other_user(self):
+        self.assertResponse(
+            self.client_other.get(
+                path=self.path_with_name
+            ),
+            status_code=403
+        )
+
+    def test_forbidden_no_token(self):
+        self.assertResponse(
+            self.client.get(
+                path=self.path_with_name
+            ),
+            status_code=401
+        )
+
     def test_create(self):
         name2 = 'group2'
         title2 = 'Title 2'

@@ -27,19 +27,7 @@ class SplitAPI(APIView):
     def put(self, request: Request, split: Split):
         serializer = SplitSerializer(
             instance=split,
-            # data=request.data,
-            data={
-                'spends': [
-                    {
-                        'user': 'user_author',
-                        'amount': -1234,
-                    },
-                    {
-                        'user': 'user_other',
-                        'amount': 1234,
-                    }
-                ]
-            },
+            data=request.data,
             partial=True
         )
         if not serializer.is_valid():
