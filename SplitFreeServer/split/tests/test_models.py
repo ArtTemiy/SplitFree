@@ -1,4 +1,4 @@
-from split.models import Spend, Split, SplitSerializer
+from split.models import Spend, Split, SplitSerializer, SpendSerializer
 from split.tests.split_test_case import SplitTestCaseBase
 
 
@@ -16,11 +16,11 @@ class TestSplitSerializer(SplitTestCaseBase):
                 'spends': [
                     {
                         'user': self.user_admin.username,
-                        'amount': -1234,
+                        'amount': -123.4,
                     },
                     {
                         'user': self.user_member.username,
-                        'amount': 1234,
+                        'amount': 123.4,
                     }
                 ]
             },

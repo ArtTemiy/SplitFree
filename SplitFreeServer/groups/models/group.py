@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.db.models import CASCADE
 
 from rest_framework import serializers
@@ -25,10 +25,10 @@ class Group(models.Model):
         return f'{self.title}, ({",".join(u.username for u in self.members.all())})'
 
     def user_is_member(self, user: User):
-        return user == self.admin or self.members.contains(user)
+        return user is not None and user != AnonymousUser and user == self.admin or self.members.contains(user)
 
     def user_is_admin(self, user: User):
-        return user == self.admin
+        return user is not None and user != AnonymousUser and user == self.admin
 
 
 class GroupSerializer(serializers.ModelSerializer):

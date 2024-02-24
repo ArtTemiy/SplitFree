@@ -1,3 +1,6 @@
+import difflib
+from _decimal import Decimal
+
 from rest_framework.response import Response
 
 from .split_test_case import SplitTestCaseBase
@@ -10,7 +13,7 @@ class SplitApiTests(SplitTestCaseBase):
             path=f'/split?id={self.split.pk}'
         )
         self.assertResponse(response)
-        self.assertDictEqual(response.data, {
+        expected = {
             'id': self.split.pk,
             'title': self.split.title,
             'description': self.split.description,
@@ -19,11 +22,15 @@ class SplitApiTests(SplitTestCaseBase):
             'spends': [s for s in response.data['spends'] if s in
                        [{
                            'user': spend.user.username,
-                           'amount': f'{spend.amount:.2f}',
+                           'amount': spend.amount,
                        } for spend in Spend.objects.filter(split=self.split)]
                        ],
             'amount': sum([abs(s.amount) for s in self.split.spends.all()]) / 2,
-        })
+        }
+        self.assertDictEqual(
+            dict(response.data),
+            expected,
+        )
 
     def test_create(self):
         title2 = 'My Title'
@@ -37,11 +44,11 @@ class SplitApiTests(SplitTestCaseBase):
                 'spends': [
                     {
                         'user': self.user_admin.username,
-                        'amount': '-1234.00',
+                        'amount': Decimal('-12.34'),
                     },
                     {
                         'user': self.user_member.username,
-                        'amount': 1234,
+                        'amount': Decimal('12.34'),
                     }
                 ],
                 'category': 'gifts'
@@ -58,15 +65,15 @@ class SplitApiTests(SplitTestCaseBase):
                 'spends': [
                     {
                         'user': self.user_admin.username,
-                        'amount': '-1234.00',
+                        'amount': Decimal('-12.34'),
                     },
                     {
                         'user': self.user_member.username,
-                        'amount': '1234.00',
+                        'amount': Decimal('12.34'),
                     }
                 ],
                 'category': 'gifts',
-                'amount': ' 1234.00',
+                'amount': Decimal('12.34'),
             }
         )
 
@@ -80,7 +87,7 @@ class SplitApiTests(SplitTestCaseBase):
                 'category': 'general',
                 'spends': [{
                     'user': self.user_admin.username,
-                    'amount': 1234,
+                    'amount': 12.34,
                 }]
             }
         ), status_code=400)
@@ -107,11 +114,11 @@ class SplitApiTests(SplitTestCaseBase):
                 'spends': [
                     {
                         'user': self.user_admin.username,
-                        'amount': -1234,
+                        'amount': -12.34,
                     },
                     {
                         'user': self.user_member.username,
-                        'amount': 1234,
+                        'amount': 12.34,
                     }
                 ]
             }

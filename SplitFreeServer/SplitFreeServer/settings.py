@@ -51,7 +51,8 @@ REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
-    ]
+    ],
+    'COERCE_DECIMAL_TO_STRING': False,
 }
 
 MIDDLEWARE = [
