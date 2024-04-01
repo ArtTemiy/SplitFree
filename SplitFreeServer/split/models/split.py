@@ -95,14 +95,15 @@ class SplitSerializer(serializers.ModelSerializer):
 
     def _get_amount(self, obj: Split):
         res = reduce(
-            lambda s, spend: s + (spend.amount if spend.amount > 0 else 0),
+            lambda s, spend: s + (spend.amount if spend.amount > 0 else Decimal(0)),
             Spend.objects.filter(split=obj),
-            0
+            Decimal(0)
         )
-        return f'{res: .2f}'
+        return res
+        # return f'{res: .2f}'
 
     def _create_spends(self, instance, spends_data):
-        r = Spend.objects.filter(split=instance).delete()
+        Spend.objects.filter(split=instance).delete()
         for spend_data in spends_data:
             Spend.objects.create(split=instance, **spend_data).save()
 
